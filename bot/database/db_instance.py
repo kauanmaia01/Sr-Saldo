@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, insert, delete, text
+from bot.database.tables_obj import tb_assets
 from sqlalchemy.engine import URL
 import pandas as pd
 import dotenv, os
@@ -50,7 +51,7 @@ class DbInstance:
 
 
     def delete_data(self, table_obj, column, value) -> None:
-        stmt = delete(table_obj).where(column == value)
+        stmt = delete(table_obj).where(text(f'{column} = {value}'))
         self._db_connection(stmt, operation_type=1)
 
 
@@ -75,4 +76,4 @@ class DbInstance:
 # Delete data
 
 #test = DbInstance()
-#assets = test.delete_data(tb_assets, "assets_id = 3")
+#assets = test.delete_data(table_obj=tb_assets,column="assets_id", value="26")
