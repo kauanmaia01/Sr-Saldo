@@ -56,7 +56,7 @@ def assets_delete(chat_id):
 def row_delete(message):
     try:
         text_user = int(message.text)
-        pointer_with_database.delete_data(table_obj=tb_assets, column='assetes_id', value=str(text_user))
+        pointer_with_database.delete_data(table_obj=tb_assets, column='assets_id', value=str(text_user))
         bot.send_message(message.chat.id, f"✅ Registro deleta com sucesso")
     except Exception as e:
         print("Erro:", e)
