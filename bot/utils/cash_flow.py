@@ -1,8 +1,7 @@
 from bot.bot_instance import bot
 from bot.keyboards.inline import menu_cash_flow
-from bot.database.supabase_instance import DbCreateClient
-# from bot.database.db_instance import DbInstance
-# from bot.database.tables_obj import tb_cash_flow
+from bot.database.db_instance import DbInstance
+from bot.database.tables_obj import tb_cash_flow
 
 
 # Registrar Gastos
@@ -33,21 +32,22 @@ def register_user(message):
 
 
 def register_cash_flow(info_user: str):
-    supabase_client = pointer_with_database
+    db_client = pointer_with_database
 
     operation_wallet, operation_type, operation_name, operation_category, operation_value, operation_date = info_user.split(',')
 
-    response = supabase_client.insert(
-        {
-            'operation_wallet': operation_wallet.strip(),
-            'operation_type': operation_type.strip(), 
-            'operation_name': operation_name.strip(), 
-            'operation_category': operation_category.strip(), 
-            'operation_value': float(operation_value.strip()),
-            'operation_date' : operation_date.strip()
-        }).execute()
+    data = {
+        'operation_wallet': operation_wallet.strip(),
+        'operation_type': operation_type.strip(), 
+        'operation_name': operation_name.strip(), 
+        'operation_category': operation_category.strip(), 
+        'operation_value': float(operation_value.strip()),
+        'operation_date' : operation_date.strip()
+    }
+
+    response = db_client.insert_data(table_obj=tb_cash_flow, values=data, id_name='operation_id')
     
-    return response.data[0]['operation_id']
+    return response
 
 
 # Deletar Registros
@@ -58,8 +58,8 @@ def delete_register(chat_id):
 
 def row_delete(message):
     try:
-        text_user = int(message.text)
-        pointer_with_database.delete().eq("operation_id", text_user).execute()
+        text_user = str(message.text)
+        pointer_with_database.delete_data(table_obj=tb_cash_flow, column='operation_id', value=text_user)
         bot.send_message(message.chat.id, f"✅ Registro deleta com sucesso")
     except Exception as e:
         print("Erro:", e)
@@ -71,7 +71,7 @@ def row_delete(message):
     bot.send_message(message.chat.id, "📋 O que você deseja fazer agora?", reply_markup=menu_cash_flow())
 
 
+
+
 # Conexão com o banco de dados
-tb_name = 'tb_cash_flow'
-create_client = DbCreateClient()
-pointer_with_database = create_client.database_interaction(tb_name)
+pointer_with_database = DbInstance()

@@ -14,8 +14,9 @@ def calc_juros_composto(capital_inicial: float, taxa_anual: float, aporte_mensal
 
 def receber_capital(message):
     try:
-        capital = float(message.text)
-        msg = bot.send_message(message.chat.id, "Digite a taxa anual em % (Ex.: 13.5): ")
+        capital = str(message.text)
+        capital = float(capital.replace('.','').replace(',', '.'))
+        msg = bot.send_message(message.chat.id, "Digite a taxa anual em % (Ex.: 13,50): ")
         bot.register_next_step_handler(msg, receber_taxa, capital)
     except ValueError:
         bot.send_message(message.chat.id, "Valor inválido. Digite um número para o capital.")
@@ -24,8 +25,9 @@ def receber_capital(message):
 
 def receber_taxa(message, capital):
     try:
-        taxa = float(message.text)
-        msg = bot.send_message(message.chat.id, "Digite o aporte mensal (Ex.: 200): ")
+        taxa = str(message.text)
+        taxa = float(taxa.replace(',', '.'))
+        msg = bot.send_message(message.chat.id, "Digite o aporte mensal (Ex.: 259,00): ")
         bot.register_next_step_handler(msg, receber_aportes, capital, taxa)
     except ValueError:
         bot.send_message(message.chat.id, "Valor inválido. Digite um número para a taxa.")
@@ -34,7 +36,8 @@ def receber_taxa(message, capital):
 
 def receber_aportes(message, capital, taxa):
     try:
-        aporte = float(message.text)
+        aporte = str(message.text)
+        aporte = float(aporte.replace('.','').replace(',', ''))
         msg = bot.send_message(message.chat.id, "Digite o número de anos (Ex.: 1): ")
         bot.register_next_step_handler(msg, receber_anos, capital, taxa, aporte)
     except ValueError:

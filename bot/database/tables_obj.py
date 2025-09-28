@@ -10,8 +10,8 @@ tb_cash_flow = Table(
     Column("operation_type", String()),
     Column("operation_name", String()),
     Column("operation_category", String()),
-    Column("operation_value", String()),
-    Column("operation_date", Numeric()),
+    Column("operation_value", Numeric()),
+    Column("operation_date", String()),
     schema="public"
 )
 

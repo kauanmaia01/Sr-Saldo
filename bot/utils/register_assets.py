@@ -34,16 +34,16 @@ def register_assets(info_user: str) -> int:
     db_client = pointer_with_database
 
     assets_type, assets_name, current_quote, amount, buy_date = info_user.split(',')
+
+    data = {
+        'assets_type': assets_type.strip(),
+        'assets_name': assets_name.strip(), 
+        'current_quote': float(current_quote.strip()), 
+        'amount': float(amount.strip()),
+        'buy_date': buy_date
+    }
     
-    response = db_client.insert_data(
-        table_obj=tb_assets,
-        id_name='assets_id',
-        assets_type=assets_type,
-        assets_name=assets_name,
-        current_quote=current_quote,
-        amount=amount,
-        buy_date=buy_date
-    )
+    response = db_client.insert_data(table_obj=tb_assets, values=data, id_name='assets_id')
     return response
 
 
@@ -55,8 +55,8 @@ def assets_delete(chat_id):
 
 def row_delete(message):
     try:
-        text_user = int(message.text)
-        pointer_with_database.delete_data(table_obj=tb_assets, column='assets_id', value=str(text_user))
+        text_user = str(message.text)
+        pointer_with_database.delete_data(table_obj=tb_assets, column='assets_id', value=text_user)
         bot.send_message(message.chat.id, f"✅ Registro deleta com sucesso")
     except Exception as e:
         print("Erro:", e)

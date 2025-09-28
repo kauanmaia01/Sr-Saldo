@@ -44,7 +44,7 @@ def callback_handler(call):
     # Calculadora de Juros Compostos
 
     elif call.data == "compound_interest":
-        msg = bot.send_message(call.message.chat.id, "Digite o capital inicial (Ex.: 1000): ")
+        msg = bot.send_message(call.message.chat.id, "Digite o capital inicial (Ex.: 1.000,00): ")
         bot.register_next_step_handler(msg, receber_capital)
 
     # Help
