@@ -7,10 +7,22 @@ from bot.database.tables_obj import tb_assets
 # Registrar Ativos
 def assets_data_request(chat_id):
     text = (
-        "Digite o item do fluxo de caixa:\n\n"
-        "Formato:\n"
-        "`Tipo do Ativo, Nome do Ativo, Cotação Atual, Quantidade, Data de Compra.`\n\n"
+        "📊 *Registrar Novo Ativo*\n\n"
+        "Envie as informações no formato abaixo:\n\n"
+        "`Tipo, Nome, Cotação, Quantidade, Data`\n\n"
+        "━━━━━━━━━━━━━━\n"
+        "*Exemplo:*\n"
+        "`Ação, PETR4, 32.45, 100, 2025-06-01`\n"
+        "━━━━━━━━━━━━━━\n\n"
+        "*Guia rápido:*\n"
+        "🏷 *Tipo* → Ação, FII, ETF, Cripto...\n"
+        "📌 *Nome* → Código do ativo (ex: PETR4)\n"
+        "💵 *Cotação* → valor unitário atual (ex: 32.45)\n"
+        "🔢 *Quantidade* → número de unidades\n"
+        "📅 *Data* → AAAA-MM-DD\n\n"
+        "⚠️ Separe cada campo por vírgula."
     )
+
     msg = bot.send_message(chat_id, text, parse_mode="Markdown")
     bot.register_next_step_handler(msg, register_user)
 

@@ -4,15 +4,24 @@ from bot.database.db_instance import DbInstance
 from bot.database.tables_obj import tb_cash_flow
 
 
-# Registrar Gastos
+# Registrar Fluxo de Caixa
 def cashflow_data_request(chat_id):
     text = (
-        "Digite o item do fluxo de caixa:\n\n"
-        "Formato:\n"
-        "`carteira, tipo, nome, categoria, valor`\n\n"
-        "Exemplo:\n"
-        "`Nubank, Renda/Despesa, Camiseta Vans, Compras, 169.99, 2025-06-01`"
+        "💰 *Novo Registro no Fluxo de Caixa*\n\n"
+        "Envie os dados no seguinte formato:\n\n"
+        "`Carteira, Tipo, Nome, Categoria, Valor, Data`\n\n"
+        "📌 *Exemplo:*\n"
+        "`Nubank, Despesa, Camiseta Vans, Compras, 169.99, 2025-06-01`\n\n"
+        "━━━━━━━━━━━━━━\n"
+        "🟣 Carteira: Nubank / Itaú\n"
+        "🔁 Tipo: Receita ou Despesa\n"
+        "🏷 Nome: descrição do item\n"
+        "📂 Categoria: ex. Alimentação, Compras\n"
+        "💵 Valor: use ponto para centavos (ex: 49.90)\n"
+        "📅 Data: formato AAAA-MM-DD\n\n"
+        "⚠️ Separe tudo por vírgula."
     )
+
     msg = bot.send_message(chat_id, text, parse_mode="Markdown")
     bot.register_next_step_handler(msg, register_user)
 

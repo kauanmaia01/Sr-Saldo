@@ -37,7 +37,7 @@ def receber_taxa(message, capital):
 def receber_aportes(message, capital, taxa):
     try:
         aporte = str(message.text)
-        aporte = float(aporte.replace('.','').replace(',', ''))
+        aporte = float(aporte.replace('.','').replace(',', '.'))
         msg = bot.send_message(message.chat.id, "Digite o número de anos (Ex.: 1): ")
         bot.register_next_step_handler(msg, receber_anos, capital, taxa, aporte)
     except ValueError:
