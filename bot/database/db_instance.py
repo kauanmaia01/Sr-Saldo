@@ -1,13 +1,16 @@
 from sqlalchemy import create_engine, insert, delete, text
 from sqlalchemy.engine import URL
 import dotenv, os
+import urllib.parse
 
 dotenv.load_dotenv()
 
+password = urllib.parse.quote_plus(os.getenv("DB_PASSWORD", ""))
+
 url = URL.create(
     drivername="postgresql+psycopg2",
-    username=os.get("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
+    username=os.getenv("DB_USER"),
+    password=password,
     host="aws-1-us-west-2.pooler.supabase.com",
     port=6543,
     database="postgres"
