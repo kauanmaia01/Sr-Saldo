@@ -3,6 +3,8 @@ from bot.keyboards.inline import menu_cash_flow
 from bot.database.db_instance import DbInstance
 from bot.database.tables_obj import tb_cash_flow
 
+import traceback
+
 
 # Registrar Fluxo de Caixa
 def cashflow_data_request(chat_id):
@@ -32,10 +34,14 @@ def register_user(message):
         response = register_cash_flow(text_user)
         bot.send_message(message.chat.id, f"✅ Registro salvo com sucesso! ID do registro: {response}")
     except Exception as e:
-        print("Erro:", e)
-        bot.send_message(message.chat.id, "❌ Formato inválido. Tente novamente.")
+        print("ERRO REAL:")
+        traceback.print_exc()
+        bot.send_message(
+            message.chat.id,
+            f"❌ Erro interno:\n{str(e)}"
+        )
         bot.register_next_step_handler(message, register_user)
-        return  
+        return
     
     bot.send_message(message.chat.id, "📋 O que você deseja fazer agora?", reply_markup=menu_cash_flow())
 
@@ -71,15 +77,16 @@ def row_delete(message):
         pointer_with_database.delete_data(table_obj=tb_cash_flow, column='operation_id', value=text_user)
         bot.send_message(message.chat.id, f"✅ Registro deleta com sucesso")
     except Exception as e:
-        print("Erro:", e)
-        bot.send_message(message.chat.id, "❌ Formato inválido. Tente novamente.")
-        bot.send_message(message.chat.id, reply_markup=menu_cash_flow())
+        print("ERRO REAL:")
+        traceback.print_exc()
+        bot.send_message(
+            message.chat.id,
+            f"❌ Erro interno:\n{str(e)}"
+        )
         bot.register_next_step_handler(message, register_user)
         return
     
     bot.send_message(message.chat.id, "📋 O que você deseja fazer agora?", reply_markup=menu_cash_flow())
-
-
 
 
 # Conexão com o banco de dados
