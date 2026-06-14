@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, insert, delete, text
 from sqlalchemy.engine import URL
-import pandas as pd
 import dotenv, os
 
 dotenv.load_dotenv()
@@ -27,11 +26,6 @@ class DbInstance:
                 return result
             conn.commit()
             return result
-
-
-    def get_data(self, query: str) -> pd.DataFrame:
-        result = self._db_connection(text(query))
-        return pd.DataFrame(result.mappings().all())
 
 
     def insert_data(self, table_obj, values: dict, id_name: str = None) -> int | None:
