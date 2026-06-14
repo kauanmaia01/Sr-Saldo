@@ -6,10 +6,10 @@ dotenv.load_dotenv()
 
 url = URL.create(
     drivername="postgresql+psycopg2",
-    username="postgres.hfmoxzfwhvkqotcefwiz",
+    username=os.get("DB_USER"),
     password=os.getenv("DB_PASSWORD"),
-    host="aws-0-sa-east-1.pooler.supabase.com",
-    port=5432,
+    host="aws-1-us-west-2.pooler.supabase.com",
+    port=6543,
     database="postgres"
 )
 
